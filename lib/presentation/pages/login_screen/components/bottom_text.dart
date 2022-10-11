@@ -51,8 +51,8 @@ class _BottomTextState extends State<BottomText> {
                   text: ChangeScreenAnimation.currentScreen == Screens.createAccount
                       ? 'Already have an account? '
                       : 'Don\'t have an account? ',
-                  style: const TextStyle(
-                    color: kPrimaryColor,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

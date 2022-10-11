@@ -1,4 +1,4 @@
-import 'package:getx_clean_arch/domain/entities/compound_model.dart';
+import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
 
 class CompoundsResponse {
   CompoundsResponse({

@@ -1,4 +1,4 @@
-import 'package:getx_clean_arch/domain/entities/user_model.dart';
+import 'package:getx_clean_arch/domain/entities/models/user_model.dart';
 
 class UserResponse {
   UserResponse({

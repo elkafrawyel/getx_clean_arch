@@ -8,9 +8,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const OKToast(
+    return OKToast(
       child: GetMaterialApp(
-        home: SplashScreen(),
+        home: const SplashScreen(),
+        theme: ThemeData(primaryColor: const Color(0xffB3171C)),
       ),
     );
   }

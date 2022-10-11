@@ -1,6 +1,6 @@
 import 'package:getx_clean_arch/data/models/compounds_response.dart';
 import 'package:getx_clean_arch/data/providers/network/api_provider.dart';
-import 'package:getx_clean_arch/domain/entities/compound_model.dart';
+import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
 import 'package:getx_clean_arch/domain/repositories/compounds_repository.dart';
 import 'package:tuple/tuple.dart';
 

@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
-import 'package:getx_clean_arch/domain/entities/compound_model.dart';
-import 'package:getx_clean_arch/domain/usecases/fetch_compounds_usecase.dart';
+import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
+import 'package:getx_clean_arch/domain/repositories/compounds_repository.dart';
 import 'package:tuple/tuple.dart';
 
 class HomeController extends GetxController {
-  HomeController(this._fetchCompoundsUseCase);
+  HomeController(this._compoundsRepository);
 
-  final FetchCompoundsUseCase _fetchCompoundsUseCase;
+  final CompoundsRepository _compoundsRepository;
 
   int _currentPage = 0;
   int _lastPage = 1;
@@ -22,7 +22,7 @@ class HomeController extends GetxController {
 
   fetchData() async {
     _currentPage = 1;
-    Tuple2<int, List<CompoundModel>> tuple2 = await _fetchCompoundsUseCase.execute(_currentPage);
+    Tuple2<int, List<CompoundModel>> tuple2 = await _compoundsRepository.fetchCompounds(_currentPage);
     _lastPage = tuple2.item1;
     _compounds.assignAll(tuple2.item2);
     update();
@@ -32,17 +32,16 @@ class HomeController extends GetxController {
     if (_isLoadMore) return;
 
     if (_currentPage >= _lastPage) {
-      _isLoadMoreEnd  = true;
+      _isLoadMoreEnd = true;
       update();
     }
     _isLoadMore = true;
     update();
     _currentPage += 1;
-    Tuple2<int, List<CompoundModel>> tuple2 = await _fetchCompoundsUseCase.execute(_currentPage);
+    Tuple2<int, List<CompoundModel>> tuple2 = await _compoundsRepository.fetchCompounds(_currentPage);
     _lastPage = tuple2.item1;
     _compounds.addAll(tuple2.item2);
     _isLoadMore = false;
     update();
-
   }
 }
