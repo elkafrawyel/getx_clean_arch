@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:getx_clean_arch/app/util/constants.dart';
-import 'package:getx_clean_arch/app/util/information_viewer.dart';
 import 'package:getx_clean_arch/presentation/pages/login_screen/animations/change_screen_animation.dart';
-import 'package:getx_clean_arch/presentation/pages/settings/setting_screen.dart';
 import 'bottom_text.dart';
 import 'top_text.dart';
 import 'wrapWithAnimatedBuilder.dart';
