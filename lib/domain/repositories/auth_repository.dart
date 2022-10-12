@@ -21,11 +21,11 @@ abstract class AuthRepository {
 
   Future<OperationReply<void>> forgetPasswordByPhone({required String phone});
 
+  Future<OperationReply<void>> forgetPasswordByEmail({required String email});
+
   Future<OperationReply<void>> changePassword({required ChangePasswordRequest changePasswordRequest});
 
   Future<OperationReply<void>> changePhoneNumber({required ChangePhoneRequest changePhoneRequest});
-
-  Future<OperationReply<void>> forgetPasswordByEmail({required String email});
 
   Future<OperationReply<void>> verifyOtpCode({required String code});
 

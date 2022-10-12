@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_utils/get_utils.dart';
-import 'package:getx_clean_arch/data/providers/storage/local_storage.dart';
+import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 
 import 'operationReply.dart';
 
@@ -49,7 +49,7 @@ class NetworkHelper {
       return OperationReply(OperationStatus.failed, message: errorMessage);
     } else if (body != null && body['message'] != null && body['message'].length < 255) {
       if (body['message'].toString().contains('Unauthenticated')) {
-        LocalStorage.signOut();
+        LocalProvider.signOut();
       }
       String errorMessage = '';
       if (body['message'].toString().isNotEmpty) {

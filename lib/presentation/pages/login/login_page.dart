@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_clean_arch/data/providers/storage/local_storage.dart';
+import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 import 'package:getx_clean_arch/presentation/controllers/auth/auth_controller.dart';
 import 'package:getx_clean_arch/presentation/widgets/app_dialog.dart';
 import 'package:getx_clean_arch/presentation/widgets/app_text_field.dart';
@@ -83,15 +83,20 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                LocalStorage.signOut();
+                LocalProvider.signOut();
               },
               child: const Text('LOGOUT'),
             ),
             PlatformButton().build(
               child: const Text('Show Dialog'),
               onPressed: () {
-                scaleDialog(context,
-                    title: 'Demo Dialog', content: 'Dialog Content', barrierDismissible: true, onConfirmClick: () {});
+                scaleDialog(
+                  context,
+                  title: 'Demo Dialog',
+                  content: 'Dialog Content',
+                  barrierDismissible: true,
+                  onConfirmClick: () {},
+                );
               },
             )
           ],

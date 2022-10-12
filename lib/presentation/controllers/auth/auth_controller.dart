@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:getx_clean_arch/app/util/information_viewer.dart';
 import 'package:getx_clean_arch/app/util/operationReply.dart';
-import 'package:getx_clean_arch/data/providers/storage/local_storage.dart';
+import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 import 'package:getx_clean_arch/domain/entities/requests/login_request.dart';
 import 'package:getx_clean_arch/domain/repositories/auth_repository.dart';
 import 'package:getx_clean_arch/presentation/controllers/home/home_binding.dart';
@@ -25,7 +25,7 @@ class AuthController extends GetxController {
     );
     loading.value = false;
     if (operationReply.isSuccess()) {
-      await LocalStorage.saveUser(operationReply.returnData);
+      await LocalProvider.saveUser(operationReply.returnData);
       Get.to(() => HomePage(), binding: HomeBinding());
     } else {
       InformationViewer.showErrorToast(msg: 'Error in login ==> ${operationReply.status} ${operationReply.message}');

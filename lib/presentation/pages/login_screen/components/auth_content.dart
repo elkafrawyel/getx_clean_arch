@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:getx_clean_arch/app/util/constants.dart';
 import 'package:getx_clean_arch/app/util/information_viewer.dart';
 import 'package:getx_clean_arch/presentation/pages/login_screen/animations/change_screen_animation.dart';
+import 'package:getx_clean_arch/presentation/pages/settings/setting_screen.dart';
 import 'bottom_text.dart';
 import 'top_text.dart';
 import 'wrapWithAnimatedBuilder.dart';
@@ -57,9 +59,7 @@ class _AuthContentState extends State<AuthContent> with TickerProviderStateMixin
       child: ElevatedButton(
         onPressed: () {
           if (ChangeScreenAnimation.currentScreen == Screens.login) {
-            if (_loginFormKey.currentState!.validate()) {
-
-            }
+            if (_loginFormKey.currentState!.validate()) {}
           } else {
             if (_registerFormKey.currentState!.validate()) {}
           }
@@ -67,7 +67,7 @@ class _AuthContentState extends State<AuthContent> with TickerProviderStateMixin
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 14),
           shape: const StadiumBorder(),
-          primary: kSecondaryColor,
+          primary: Constants.kSecondaryColor,
           elevation: 8,
           shadowColor: Colors.black87,
         ),
@@ -90,7 +90,7 @@ class _AuthContentState extends State<AuthContent> with TickerProviderStateMixin
           Flexible(
             child: Container(
               height: 1,
-              color: kPrimaryColor,
+              color: Constants.kPrimaryColor,
             ),
           ),
           const Padding(
@@ -106,7 +106,7 @@ class _AuthContentState extends State<AuthContent> with TickerProviderStateMixin
           Flexible(
             child: Container(
               height: 1,
-              color: kPrimaryColor,
+              color: Constants.kPrimaryColor,
             ),
           ),
         ],
@@ -135,12 +135,12 @@ class _AuthContentState extends State<AuthContent> with TickerProviderStateMixin
         padding: const EdgeInsets.symmetric(horizontal: 110),
         child: TextButton(
           onPressed: () {},
-          child: const Text(
+          child: Text(
             'Forgot Password?',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: kSecondaryColor,
+              color: Constants.kSecondaryColor,
             ),
           ),
         ),

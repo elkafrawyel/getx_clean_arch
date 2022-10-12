@@ -1,21 +1,20 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:getx_clean_arch/data/providers/storage/local_storage.dart';
+import 'package:getx_clean_arch/app/util/enviroment.dart';
+import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 import 'logging_interceptor.dart';
 
 class APIProvider {
   static const requestTimeOut = 250000;
 
-  static const _baseUrl = 'https://host-n.com/api/app';
-
   final Dio _client = Dio(
     BaseOptions(
-      baseUrl: _baseUrl,
+      baseUrl: Environment.url(),
       headers: {
         HttpHeaders.acceptHeader: 'application/json',
         HttpHeaders.cacheControlHeader: 'no-Cache',
-        if (LocalStorage.isLogged) 'Authorization': 'Bearer ${LocalStorage.getUserToken}'
+        if (LocalProvider.isLogged()) 'Authorization': 'Bearer ${LocalProvider.getUserToken}'
       },
       followRedirects: false,
       validateStatus: (status) => status! <= 500,
@@ -37,13 +36,8 @@ class APIProvider {
   }
 
   Future<Response<dynamic>>? postBody(String path, {required Map<String, dynamic> body}) {
-    try {
-      final response = _client.post(path, data: FormData.fromMap(body));
-      return response;
-    } on DioError catch (e) {
-
-      return null;
-    }
+    final response = _client.post(path, data: FormData.fromMap(body));
+    return response;
   }
 
   Future<Response<dynamic>> postMultiPart(String path, {required FormData formData}) {
