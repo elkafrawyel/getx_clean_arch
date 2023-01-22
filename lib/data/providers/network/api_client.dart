@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
-
+import 'package:get_storage/get_storage.dart';
 import '../../../app/util/environment.dart';
 import '../storage/local_provider.dart';
 import 'exception.dart';
@@ -23,27 +23,28 @@ class ApiClient {
   ApiClient({this.headers}) {
     dio.options.headers = headers;
     //todo if there is any auth_tokens uncomment here
-    dio.options.headers.putIfAbsent("Authorization", () => "Bearer ${LocalProvider.getUserToken}");
+    dio.options.headers
+        .putIfAbsent("Authorization", () => "Bearer ${GetStorage().read(LocalProviderKeys.apiToken.name)}");
+    dio.options.headers.putIfAbsent("Language", () => "${GetStorage().read(LocalProviderKeys.language.name)}");
     dio.options.headers.putIfAbsent("Content-Type", () => "application/json");
   }
 
-  Future<Either<Exception, T>> _handleResponse<T>(
+  Future<Either<Exception, dynamic>> _handleResponse(
     Future<Response> request,
   ) async {
     try {
       final response = await request;
       if (response.statusCode! >= 200 && response.statusCode! < 300) {
-        final data = response.data;
-        return right(data);
+        return right(response.data);
       } else {
-        return left(ApiErrorHandler.handleError(response.data));
+        return left(ApiErrorHandler.handleError(response.statusCode));
       }
     } catch (e) {
       return left(ApiErrorHandler.handleError(e));
     }
   }
 
-  Future<Either<Exception, T>> get<T>(
+  Future<Either<Exception, dynamic>> get(
     String url, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -54,10 +55,10 @@ class ApiClient {
         if (queryParameters != null) ...queryParameters,
       },
     );
-    return _handleResponse<T>(request);
+    return _handleResponse(request);
   }
 
-  Future<Either<Exception, T>> post<T>(
+  Future<Either<Exception, dynamic>> post(
     String url,
     dynamic data, {
     Map<String, dynamic>? queryParameters,
@@ -68,10 +69,10 @@ class ApiClient {
       data: data,
       queryParameters: queryParameters,
     );
-    return _handleResponse<T>(request);
+    return _handleResponse(request);
   }
 
-  Future<Either<Exception, T>> put<T>(
+  Future<Either<Exception, dynamic>> put(
     String url,
     dynamic data, {
     Map<String, dynamic>? queryParameters,
@@ -82,10 +83,10 @@ class ApiClient {
       data: data,
       queryParameters: queryParameters,
     );
-    return _handleResponse<T>(request);
+    return _handleResponse(request);
   }
 
-  Future<Either<Exception, T>> delete<T>(
+  Future<Either<Exception, dynamic>> delete(
     String url, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -94,10 +95,10 @@ class ApiClient {
       options: Options(headers: headers, validateStatus: (status) => true),
       queryParameters: queryParameters,
     );
-    return _handleResponse<T>(request);
+    return _handleResponse(request);
   }
 
-  Future<Either<Exception, T>> request<T>(
+  Future<Either<Exception, dynamic>> request(
     String url, {
     String? method, // if request is not one of CRUD operations, give request type name here and use this function
     dynamic data,
@@ -113,6 +114,6 @@ class ApiClient {
       data: data,
       queryParameters: queryParameters,
     );
-    return _handleResponse<T>(request);
+    return _handleResponse(request);
   }
 }

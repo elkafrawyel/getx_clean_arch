@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(title: const Text('Home')),
           body: homeController.exception != null
-              ? Center(child: handleError(homeController.exception!, context))
+              ? Center(child: handleException(homeController.exception!, context))
               : PaginationView(
                   showLoadMoreWidget: homeController.isLoadMore,
                   showLoadMoreEndWidget: homeController.isLoadMoreEnd,
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  handleError(Exception exception, BuildContext context) {
+  handleException(Exception exception, BuildContext context) {
     if (exception is NotFoundException) {
       return const Text("Data Not Found");
     } else if (exception is UnauthorizedException) {

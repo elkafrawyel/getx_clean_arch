@@ -27,7 +27,7 @@ class HomeController extends GetxController {
     _currentPage = 1;
     Either<Exception, CompoundsResponse> result = await _compoundsRepository.fetchCompounds(_currentPage);
     result.fold(
-      (l) => exception =l,
+      (l) => exception = l,
       (t) {
         _lastPage = t.meta?.lastPage ?? 1;
         _compounds.addAll(t.data ?? []);

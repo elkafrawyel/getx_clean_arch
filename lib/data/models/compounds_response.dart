@@ -1,5 +1,6 @@
 import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
 
+
 class CompoundsResponse {
   CompoundsResponse({
     this.data,
@@ -7,7 +8,9 @@ class CompoundsResponse {
     this.meta,
   });
 
-  CompoundsResponse.fromJson(Map<String,dynamic> json) {
+
+
+  CompoundsResponse.fromJson(Map<String,dynamic> json){
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {

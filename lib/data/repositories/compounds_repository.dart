@@ -9,8 +9,10 @@ class CompoundsRepositoryIml extends CompoundsRepository {
 
   @override
   Future<Either<Exception, CompoundsResponse>> fetchCompounds(int page) async {
-    final response = await apiClient.get<CompoundsResponse>('/getAllCompounds?page=$page');
-
-    return response;
+    final response = await apiClient.get('/getAllCompounds?page=$page');
+    return response.fold(
+      (exception) => left(exception),
+      (data) => right(CompoundsResponse.fromJson(data)),
+    );
   }
 }
