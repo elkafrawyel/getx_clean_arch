@@ -1,44 +1,46 @@
-import 'package:dio/dio.dart';
-
 class ApiException implements Exception {
-  final String? message;
+  final String message;
 
   ApiException({required this.message});
 
   @override
-  String toString() => message ?? 'unknown error';
+  String toString() => message;
+}
+
+class NoConnectionException extends ApiException {
+  NoConnectionException({required String message}) : super(message: message);
 }
 
 class BadRequestException extends ApiException {
-  BadRequestException({String? message}) : super(message: message);
+  BadRequestException({required String message}) : super(message: message);
 }
 
 class UnauthorizedException extends ApiException {
-  UnauthorizedException({String? message}) : super(message: message);
+  UnauthorizedException({required String message}) : super(message: message);
 }
 
 class ForbiddenException extends ApiException {
-  ForbiddenException({String? message}) : super(message: message);
+  ForbiddenException({required String message}) : super(message: message);
 }
 
 class NotFoundException extends ApiException {
-  NotFoundException({String? message}) : super(message: message);
+  NotFoundException({required String message}) : super(message: message);
 }
 
 class ConflictException extends ApiException {
-  ConflictException({String? message}) : super(message: message);
+  ConflictException({required String message}) : super(message: message);
 }
 
 class InternalServerErrorException extends ApiException {
-  InternalServerErrorException({String? message}) : super(message: message);
+  InternalServerErrorException({required String message}) : super(message: message);
 }
 
 class BadGatewayException extends ApiException {
-  BadGatewayException({String? message}) : super(message: message);
+  BadGatewayException({required String message}) : super(message: message);
 }
 
 class ServiceUnavailableException extends ApiException {
-  ServiceUnavailableException({String? message}) : super(message: message);
+  ServiceUnavailableException({required String message}) : super(message: message);
 }
 
 class ApiErrorHandler {
@@ -47,23 +49,23 @@ class ApiErrorHandler {
     final e = statusCode;
     switch (e) {
       case 400:
-        return BadRequestException(message: e?.data);
+        return BadRequestException(message: 'Bad Request Error');
       case 401:
-        return UnauthorizedException(message: e?.data);
+        return UnauthorizedException(message: 'Unauthorized Request Error');
       case 403:
-        return ForbiddenException(message: e?.data);
+        return ForbiddenException(message: 'Forbidden Request Error');
       case 404:
-        return NotFoundException(message: e?.data);
+        return NotFoundException(message: 'NotFound Request Error');
       case 409:
-        return ConflictException(message: e?.data);
+        return ConflictException(message: 'Conflict Request Error');
       case 500:
-        return InternalServerErrorException(message: e?.data);
+        return InternalServerErrorException(message: 'InternalServerError Request Error');
       case 502:
-        return BadGatewayException(message: e?.data);
+        return BadGatewayException(message: 'BadGateway Request Error');
       case 503:
-        return ServiceUnavailableException(message: e?.data);
+        return ServiceUnavailableException(message: 'ServiceUnavailable Request Error');
       default:
-        return ApiException(message: e?.data);
+        return ApiException(message: 'general error');
     }
   }
 }

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:getx_clean_arch/app/util/network_helper.dart';
 import 'package:getx_clean_arch/app/util/operationReply.dart';
 import 'package:getx_clean_arch/data/models/user_response.dart';
 import 'package:getx_clean_arch/data/providers/network/api_provider.dart';
+import 'package:getx_clean_arch/data/providers/network/exception.dart';
 import 'package:getx_clean_arch/domain/entities/requests/change_password_request.dart';
 import 'package:getx_clean_arch/domain/entities/requests/change_phone_request.dart';
 import 'package:getx_clean_arch/domain/entities/requests/login_request.dart';
@@ -12,7 +14,10 @@ import 'package:getx_clean_arch/domain/entities/requests/register_request.dart';
 import 'package:getx_clean_arch/domain/entities/requests/update_profile_request.dart';
 import 'package:getx_clean_arch/domain/repositories/auth_repository.dart';
 
+import '../providers/network/api_client.dart';
+
 class AuthRepositoryIml extends AuthRepository {
+  final apiClient = ApiClient();
 
   safeCallApi(Function() call) async {
     if (await NetworkHelper.isConnected()) {
@@ -23,11 +28,11 @@ class AuthRepositoryIml extends AuthRepository {
   }
 
   @override
-  Future<OperationReply<UserResponse>> login({required LoginRequest loginRequest}) async {
+  Future<Either<Exception, UserResponse>> login({required LoginRequest loginRequest}) async {
     if (await NetworkHelper.isConnected()) {
-      final Response<dynamic>? response = await APIProvider.instance.postBody(
+      final Either<Exception, dynamic> response = await apiClient.post(
         '/login',
-        body: {
+        {
           'mobile': loginRequest.phone,
           'password': loginRequest.password,
           'country_code': loginRequest.countryCode,
@@ -35,18 +40,12 @@ class AuthRepositoryIml extends AuthRepository {
         },
       );
 
-      if (response != null) {
-        if (NetworkHelper.isSuccess(response)) {
-          UserResponse userResponse = UserResponse.fromJson(response.data);
-          return OperationReply.success(returnData: userResponse);
-        } else {
-          return NetworkHelper.handleCommonNetworkCases(response).as<UserResponse>();
-        }
-      } else {
-        return OperationReply.failed();
-      }
+      return response.fold(
+        (exception) => left(exception),
+        (data) => right(UserResponse.fromJson(data)),
+      );
     } else {
-      return OperationReply.connectionDown();
+      return left(NoConnectionException(message: 'No connection available'));
     }
   }
 

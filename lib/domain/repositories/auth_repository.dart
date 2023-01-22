@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fpdart/fpdart.dart';
 import 'package:getx_clean_arch/app/util/operationReply.dart';
 import 'package:getx_clean_arch/data/models/user_response.dart';
 import 'package:getx_clean_arch/domain/entities/requests/change_password_request.dart';
@@ -9,7 +10,7 @@ import 'package:getx_clean_arch/domain/entities/requests/register_request.dart';
 import 'package:getx_clean_arch/domain/entities/requests/update_profile_request.dart';
 
 abstract class AuthRepository {
-  Future<OperationReply<UserResponse>> login({required LoginRequest loginRequest});
+  Future<Either<Exception, UserResponse>> login({required LoginRequest loginRequest});
 
   Future<OperationReply<UserResponse>> register({required RegisterRequest registerRequest});
 
