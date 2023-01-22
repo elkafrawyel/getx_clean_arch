@@ -5,7 +5,7 @@ import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 import 'package:getx_clean_arch/domain/entities/requests/login_request.dart';
 import 'package:getx_clean_arch/domain/repositories/auth_repository.dart';
 import 'package:getx_clean_arch/presentation/controllers/home/home_binding.dart';
-import 'package:getx_clean_arch/presentation/pages/home/home_page.dart';
+import 'package:getx_clean_arch/presentation/pages/home_screen/home_page.dart';
 
 class AuthController extends GetxController {
   AuthController(this._authRepository);
@@ -16,12 +16,7 @@ class AuthController extends GetxController {
   Future login(String phone, String password) async {
     loading.value = true;
     OperationReply operationReply = await _authRepository.login(
-      loginRequest: LoginRequest(
-        phone: phone,
-        password: password,
-        countryCode: '+20',
-        fcmToken: ''
-      ),
+      loginRequest: LoginRequest(phone: phone, password: password, countryCode: '+20', fcmToken: ''),
     );
     loading.value = false;
     if (operationReply.isSuccess()) {

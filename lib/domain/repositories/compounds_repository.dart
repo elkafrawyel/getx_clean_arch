@@ -1,6 +1,6 @@
-import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
-import 'package:tuple/tuple.dart';
+import 'package:fpdart/fpdart.dart';
+import '../../data/models/compounds_response.dart';
 
 abstract class CompoundsRepository {
-  Future<Tuple2<int, List<CompoundModel>>> fetchCompounds(int page);
+  Future<Either<Exception, CompoundsResponse>> fetchCompounds(int page);
 }

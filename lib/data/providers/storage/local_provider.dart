@@ -5,7 +5,7 @@ import 'package:getx_clean_arch/app/util/util.dart';
 import 'package:getx_clean_arch/data/models/user_response.dart';
 import 'package:getx_clean_arch/data/providers/network/api_provider.dart';
 import 'package:getx_clean_arch/presentation/controllers/home/home_binding.dart';
-import 'package:getx_clean_arch/presentation/pages/home/home_page.dart';
+import 'package:getx_clean_arch/presentation/pages/home_screen/home_page.dart';
 
 enum LocalProviderKeys {
   language, //String
@@ -34,7 +34,7 @@ class LocalProvider {
 
   static String getAppLanguage() => get(LocalProviderKeys.language) ?? Constants.mainAppLanguage;
 
-  static String getUserToken() => get(LocalProviderKeys.apiToken) ?? 'No Token';
+  static String? getUserToken() => get(LocalProviderKeys.apiToken);
 
   static bool isLogged() => get(LocalProviderKeys.apiToken) != null;
 

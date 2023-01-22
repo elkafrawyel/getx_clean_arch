@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:getx_clean_arch/app/util/enviroment.dart';
+import 'package:getx_clean_arch/app/util/environment.dart';
 import 'package:getx_clean_arch/app/util/language/translation.dart';
 import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 import 'package:getx_clean_arch/presentation/pages/splash.dart';

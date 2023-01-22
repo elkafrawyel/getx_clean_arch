@@ -1,7 +1,8 @@
+import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
 import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
 import 'package:getx_clean_arch/domain/repositories/compounds_repository.dart';
-import 'package:tuple/tuple.dart';
+import '../../../data/models/compounds_response.dart';
 
 class HomeController extends GetxController {
   HomeController(this._compoundsRepository);
@@ -12,7 +13,9 @@ class HomeController extends GetxController {
   int _lastPage = 1;
   bool _isLoadMore = false;
   bool _isLoadMoreEnd = false;
+  CompoundsResponse? compoundsResponse;
   final List<CompoundModel> _compounds = [];
+  Exception? exception;
 
   get compounds => _compounds;
 
@@ -22,9 +25,15 @@ class HomeController extends GetxController {
 
   fetchData() async {
     _currentPage = 1;
-    Tuple2<int, List<CompoundModel>> tuple2 = await _compoundsRepository.fetchCompounds(_currentPage);
-    _lastPage = tuple2.item1;
-    _compounds.assignAll(tuple2.item2);
+    Either<Exception, CompoundsResponse> result = await _compoundsRepository.fetchCompounds(_currentPage);
+    result.fold(
+      (l) => exception =l,
+      (t) {
+        _lastPage = t.meta?.lastPage ?? 1;
+        _compounds.addAll(t.data ?? []);
+      },
+    );
+
     update();
   }
 
@@ -38,9 +47,14 @@ class HomeController extends GetxController {
     _isLoadMore = true;
     update();
     _currentPage += 1;
-    Tuple2<int, List<CompoundModel>> tuple2 = await _compoundsRepository.fetchCompounds(_currentPage);
-    _lastPage = tuple2.item1;
-    _compounds.addAll(tuple2.item2);
+    Either<Exception, CompoundsResponse> result = await _compoundsRepository.fetchCompounds(_currentPage);
+    result.fold(
+      (l) => exception = l,
+      (t) {
+        _lastPage = t.meta?.lastPage ?? 1;
+        _compounds.addAll(t.data ?? []);
+      },
+    );
     _isLoadMore = false;
     update();
   }

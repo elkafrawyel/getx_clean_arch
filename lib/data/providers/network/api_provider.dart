@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:getx_clean_arch/app/util/enviroment.dart';
+import 'package:getx_clean_arch/app/util/environment.dart';
 import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 import 'logging_interceptor.dart';
 
