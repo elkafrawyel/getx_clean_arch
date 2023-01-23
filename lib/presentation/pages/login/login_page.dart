@@ -1,3 +1,4 @@
+import 'package:fcm_config/fcm_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
@@ -160,8 +161,8 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           'This is a translate dialog',
                           style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                            color: Colors.grey.shade700,
-                          ),
+                                color: Colors.grey.shade700,
+                              ),
                         ),
                       ),
                     ],
@@ -174,10 +175,22 @@ class _LoginPageState extends State<LoginPage> {
                   onCancelClick: () {},
                 );
               },
-            )
+            ),
+
           ],
         ),
       ),
+      persistentFooterButtons: [
+        PlatformButton().build(
+          child: const Text('Show Notification'),
+          onPressed: () {
+            FCMConfig.instance.local.displayNotification(
+              title: 'title',
+              body: DateTime.now().toString(),
+            );
+          },
+        ),
+      ],
     );
   }
 

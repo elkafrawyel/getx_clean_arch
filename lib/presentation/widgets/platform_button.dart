@@ -32,26 +32,26 @@ class ShowAndroidButton implements PlatformButton {
         return ElevatedButton(
           child: child,
           onPressed: onPressed,
-          style: ElevatedButton.styleFrom(primary: backgroundColor),
+          style: ElevatedButton.styleFrom(backgroundColor: backgroundColor),
         );
       case ButtonType.outlined:
         return OutlinedButton(
           child: child,
           onPressed: onPressed,
-          style: OutlinedButton.styleFrom(primary: backgroundColor),
+          style: OutlinedButton.styleFrom(backgroundColor: backgroundColor),
         );
       case ButtonType.text:
         return TextButton(
           child: child,
           onPressed: onPressed,
-          style: TextButton.styleFrom(primary: backgroundColor),
+          style: TextButton.styleFrom(backgroundColor: backgroundColor),
         );
 
       default:
         return ElevatedButton(
           child: child,
           onPressed: onPressed,
-          style: ElevatedButton.styleFrom(primary: backgroundColor),
+          style: ElevatedButton.styleFrom(backgroundColor: backgroundColor),
         );
     }
   }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:oktoast/oktoast.dart' as okToast;
+import 'package:oktoast/oktoast.dart' as toast;
 
 import 'operationReply.dart';
 
@@ -15,12 +15,12 @@ abstract class InformationViewer {
     required Color backgroundColor,
     Color? textColor,
   }) {
-    okToast.showToast(
+    toast.showToast(
       msg,
       textPadding: const EdgeInsets.all(10),
       duration: const Duration(seconds: 4),
       backgroundColor: backgroundColor,
-      position: okToast.ToastPosition.bottom,
+      position: toast.ToastPosition.bottom,
       textStyle: TextStyle(fontSize: fontSize, color: textColor),
     );
   }
@@ -75,14 +75,14 @@ abstract class InformationViewer {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: bgColor ?? Theme.of(Get.context!).primaryColor,
+        backgroundColor: bgColor ?? Colors.black,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         content: Text(
           message,
           style: const TextStyle(
             color: Colors.white,
-            fontSize: 16,
+            fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
           maxLines: 3,
@@ -97,4 +97,5 @@ abstract class InformationViewer {
       );
     }
   }
+
 }

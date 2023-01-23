@@ -29,7 +29,7 @@ class AuthController extends GetxController {
     );
     result.fold(
       (ApiException exception) {
-        InformationViewer.showErrorToast(msg: exception.message);
+        InformationViewer.showSnackBar(exception.message);
         futureState.fail();
       },
       (data) async {
