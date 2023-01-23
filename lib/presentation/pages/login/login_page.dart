@@ -71,8 +71,8 @@ class _LoginPageState extends State<LoginPage> {
               shakeCount: 8,
               shakeOffset: 10,
             ),
-            Obx(
-              () => authController.loading.value
+            GetBuilder<AuthController>(
+              builder: (_) => authController.futureState.isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: () async {
@@ -88,14 +88,90 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text('LOGOUT'),
             ),
             PlatformButton().build(
-              child: const Text('Show Dialog'),
+              child: const Text('Show Scale Dialog'),
               onPressed: () {
                 scaleDialog(
-                  context,
+                  context: context,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const FlutterLogo(size: 200),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'This is a scale dialog',
+                          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                                color: Colors.grey.shade700,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  horizontalMargin: 12,
                   title: 'Demo Dialog',
-                  content: 'Dialog Content',
                   barrierDismissible: true,
                   onConfirmClick: () {},
+                  onCancelClick: () {},
+                );
+              },
+            ),
+            PlatformButton().build(
+              child: const Text('Show Rotate Dialog'),
+              onPressed: () {
+                rotateDialog(
+                  context: context,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const FlutterLogo(size: 200),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'This is a rotate dialog',
+                          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                                color: Colors.grey.shade700,
+                              ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  horizontalMargin: 12,
+                  title: 'Demo Dialog',
+                  barrierDismissible: true,
+                  onConfirmClick: () {},
+                  onCancelClick: () {},
+                );
+              },
+            ),
+            PlatformButton().build(
+              child: const Text('Show Translate Dialog'),
+              onPressed: () {
+                translateDialog(
+                  context: context,
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const FlutterLogo(size: 200),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'This is a translate dialog',
+                          style: Theme.of(context).textTheme.subtitle2!.copyWith(
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  startOffset: const Offset(0.0, 1.0),
+                  horizontalMargin: 12,
+                  title: 'Demo Dialog',
+                  barrierDismissible: true,
+                  onConfirmClick: () {},
+                  onCancelClick: () {},
                 );
               },
             )

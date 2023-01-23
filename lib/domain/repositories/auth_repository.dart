@@ -9,8 +9,10 @@ import 'package:getx_clean_arch/domain/entities/requests/login_request.dart';
 import 'package:getx_clean_arch/domain/entities/requests/register_request.dart';
 import 'package:getx_clean_arch/domain/entities/requests/update_profile_request.dart';
 
+import '../../data/providers/network/exception.dart';
+
 abstract class AuthRepository {
-  Future<Either<Exception, UserResponse>> login({required LoginRequest loginRequest});
+  Future<Either<ApiException, UserResponse>> login({required LoginRequest loginRequest});
 
   Future<OperationReply<UserResponse>> register({required RegisterRequest registerRequest});
 

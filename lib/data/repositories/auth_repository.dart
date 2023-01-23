@@ -28,9 +28,9 @@ class AuthRepositoryIml extends AuthRepository {
   }
 
   @override
-  Future<Either<Exception, UserResponse>> login({required LoginRequest loginRequest}) async {
+  Future<Either<ApiException, UserResponse>> login({required LoginRequest loginRequest}) async {
     if (await NetworkHelper.isConnected()) {
-      final Either<Exception, dynamic> response = await apiClient.post(
+      final Either<ApiException, dynamic> response = await apiClient.post(
         '/login',
         {
           'mobile': loginRequest.phone,

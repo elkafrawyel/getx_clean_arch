@@ -1,8 +1,10 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:get/get.dart';
+import 'package:getx_clean_arch/app/util/futureState.dart';
 import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
 import 'package:getx_clean_arch/domain/repositories/compounds_repository.dart';
 import '../../../data/models/compounds_response.dart';
+import '../../../data/providers/network/exception.dart';
 
 class HomeController extends GetxController {
   HomeController(this._compoundsRepository);
@@ -11,21 +13,16 @@ class HomeController extends GetxController {
 
   int _currentPage = 0;
   int _lastPage = 1;
-  bool _isLoadMore = false;
-  bool _isLoadMoreEnd = false;
+  final FutureState futureState = FutureState(FutureStateOptions.initiating);
   CompoundsResponse? compoundsResponse;
   final List<CompoundModel> _compounds = [];
-  Exception? exception;
+  ApiException? exception;
 
   get compounds => _compounds;
 
-  bool get isLoadMore => _isLoadMore;
-
-  bool get isLoadMoreEnd => _isLoadMoreEnd;
-
   fetchData() async {
     _currentPage = 1;
-    Either<Exception, CompoundsResponse> result = await _compoundsRepository.fetchCompounds(_currentPage);
+    Either<ApiException, CompoundsResponse> result = await _compoundsRepository.fetchCompounds(_currentPage);
     result.fold(
       (l) => exception = l,
       (t) {
@@ -38,16 +35,17 @@ class HomeController extends GetxController {
   }
 
   loadMore() async {
-    if (_isLoadMore) return;
+    if (futureState.isLoadingMore) return;
 
     if (_currentPage >= _lastPage) {
-      _isLoadMoreEnd = true;
+      futureState.loadingMoreEnd();
       update();
+      return;
     }
-    _isLoadMore = true;
+    futureState.loadingMore();
     update();
     _currentPage += 1;
-    Either<Exception, CompoundsResponse> result = await _compoundsRepository.fetchCompounds(_currentPage);
+    Either<ApiException, CompoundsResponse> result = await _compoundsRepository.fetchCompounds(_currentPage);
     result.fold(
       (l) => exception = l,
       (t) {
@@ -55,7 +53,7 @@ class HomeController extends GetxController {
         _compounds.addAll(t.data ?? []);
       },
     );
-    _isLoadMore = false;
+    futureState.complete();
     update();
   }
 }

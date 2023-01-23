@@ -29,22 +29,26 @@ class ApiClient {
     dio.options.headers.putIfAbsent("Content-Type", () => "application/json");
   }
 
-  Future<Either<Exception, dynamic>> _handleResponse(
+  static bool isSuccess(Response response) {
+    return response.statusCode! >= 200 && response.statusCode! < 300;
+  }
+
+  Future<Either<ApiException, dynamic>> _handleResponse(
     Future<Response> request,
   ) async {
     try {
       final response = await request;
-      if (response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (isSuccess(response)) {
         return right(response.data);
       } else {
-        return left(ApiErrorHandler.handleError(response.statusCode));
+        return left(ApiErrorHandler.handleError(response: response));
       }
     } catch (e) {
-      return left(ApiErrorHandler.handleError(e));
+      return left(ApiErrorHandler.handleError(message: e.toString()));
     }
   }
 
-  Future<Either<Exception, dynamic>> get(
+  Future<Either<ApiException, dynamic>> get(
     String url, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -58,7 +62,7 @@ class ApiClient {
     return _handleResponse(request);
   }
 
-  Future<Either<Exception, dynamic>> post(
+  Future<Either<ApiException, dynamic>> post(
     String url,
     dynamic data, {
     Map<String, dynamic>? queryParameters,

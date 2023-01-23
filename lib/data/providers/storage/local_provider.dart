@@ -1,18 +1,23 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:getx_clean_arch/app/util/constants.dart';
 import 'package:getx_clean_arch/app/util/util.dart';
 import 'package:getx_clean_arch/data/models/user_response.dart';
-import 'package:getx_clean_arch/data/providers/network/api_provider.dart';
+import 'package:getx_clean_arch/domain/entities/models/user_model.dart';
+import 'package:getx_clean_arch/presentation/controllers/auth/auth_binding.dart';
 import 'package:getx_clean_arch/presentation/controllers/home/home_binding.dart';
 import 'package:getx_clean_arch/presentation/pages/home_screen/home_page.dart';
+import 'package:getx_clean_arch/presentation/pages/login/login_page.dart';
 
 enum LocalProviderKeys {
   language, //String
   apiToken, //String
   apiTokenType, //String
   notifications, //int
-  userType, //String
+  userModel, //Json String
   loggedInBySocial, //int
   phoneVerified, //int
 }
@@ -53,34 +58,31 @@ class LocalProvider {
   static Future<bool> saveUser(UserResponse? userResponse) async {
     try {
       if (userResponse?.accessToken != null) {
-        await save(LocalProviderKeys.language, userResponse?.accessToken ?? 'no token');
+        await save(LocalProviderKeys.apiToken, userResponse?.accessToken ?? 'no token');
         await save(LocalProviderKeys.apiTokenType, userResponse?.tokenType ?? Constants.defaultApiTokenType);
-        await save(
-          LocalProviderKeys.userType,
-          userResponse?.user?.type ?? Constants.defaultUserType,
-        ); // client , owner , broker
-        await save(
-          LocalProviderKeys.loggedInBySocial,
-          userResponse?.user?.providerId == null ? 0 : 1,
-        );
-        await save(
-          LocalProviderKeys.phoneVerified,
-          userResponse?.user?.isVerified ?? 0,
-        ); // 1,0
+        await save(LocalProviderKeys.userModel, jsonEncode(userResponse?.user?.toJson())); // userModel jsonString
         return true;
       } else {
-        Get.log('Failed To save user');
+        debugPrint('Failed To save user');
         return false;
       }
     } catch (e) {
-      Get.log(e.toString());
+      debugPrint(e.toString());
       return false;
     }
   }
 
+  static UserModel? getUser() {
+    String? userModelString = get(LocalProviderKeys.userModel);
+    if (userModelString == null) {
+      return null;
+    }
+    UserModel userModel = UserModel.fromJson(jsonDecode(userModelString));
+    return userModel;
+  }
+
   static Future<void> signOut() async {
     await _box.erase();
-    APIProvider.instance.updateApiToken('Ali');
-    Get.offAll(() => HomePage(), binding: HomeBinding());
+    Get.offAll(() => const LoginPage(), binding: AuthBinding());
   }
 }
