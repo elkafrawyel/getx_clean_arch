@@ -68,6 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _passwordEditingController,
                 hintText: 'Password',
                 validateEmptyText: 'Password is required',
+                helperText: 'Password must be at least 8 characters',
               ),
               shakeCount: 8,
               shakeOffset: 10,

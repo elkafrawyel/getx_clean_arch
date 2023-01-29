@@ -13,6 +13,7 @@ class AppTextFormField extends StatefulWidget {
   final int? maxLength;
   final String? labelText;
   final String? suffixText;
+  final String? helperText;
   final bool? required;
   final bool? showLabel;
   final Color? hintColor;
@@ -45,6 +46,7 @@ class AppTextFormField extends StatefulWidget {
     this.maxLength,
     this.labelText,
     this.suffixText,
+    this.helperText,
     this.required = true,
     this.hintColor,
     this.labelColor,
@@ -89,7 +91,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         obscureText: isSecure,
         style: TextStyle(fontSize: 14, color: widget.textColor ?? Theme.of(context).textTheme.subtitle1!.color),
         controller: widget.controller,
-        keyboardType: widget.keyboardType??TextInputType.text,
+        keyboardType: widget.keyboardType ?? TextInputType.text,
         onChanged: widget.onChanged,
         textInputAction: widget.textInputAction,
         onFieldSubmitted: widget.onFieldSubmitted,
@@ -122,11 +124,13 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
           hintText: widget.hintText ?? '',
           fillColor: widget.enabled ? (widget.fillColor ?? Colors.white) : Colors.grey,
           filled: true,
-          hintStyle: TextStyle(fontSize: 14, color: widget.hintColor ?? Color(0xFF929292)),
+          hintStyle: TextStyle(fontSize: 14, color: widget.hintColor ?? const Color(0xFF929292)),
           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           alignLabelWithHint: true,
           prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon, size: 20, color: Colors.grey) : null,
           suffixText: widget.suffixText ?? '',
+          helperText: widget.helperText,
+          helperStyle: const TextStyle(color: Colors.grey, fontSize: 12),
           suffixStyle: TextStyle(color: Theme.of(context).primaryColor, fontSize: 12),
           suffixIcon: widget.suffixIcon != null || widget.isPassword
               ? InkWell(
@@ -144,13 +148,17 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
               : null,
           enabled: widget.enabled,
           errorStyle: const TextStyle(color: Colors.red, fontSize: 12),
-          disabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+          disabledBorder: const OutlineInputBorder(borderSide: BorderSide.none),
           enabledBorder: !widget.enabled
-              ? OutlineInputBorder(borderSide: BorderSide.none)
+              ? const OutlineInputBorder(borderSide: BorderSide.none)
               : OutlineInputBorder(
                   borderRadius: BorderRadius.circular(widget.radius ?? 8),
                   borderSide: BorderSide(width: 0.5, color: Colors.grey.shade500),
                 ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.radius ?? 8),
+            borderSide: BorderSide(width: 0.5, color: Theme.of(context).primaryColor),
+          ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.radius ?? 8),
             borderSide: BorderSide(width: 0.5, color: Colors.red.shade500),
@@ -193,7 +201,6 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       return null;
     }
   }
-
 
   static bool isPhoneNumber(String phone) {
     return RegExp(r'[^0-9+]').hasMatch(phone);
