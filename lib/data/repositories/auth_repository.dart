@@ -5,7 +5,6 @@ import 'package:fpdart/fpdart.dart';
 import 'package:getx_clean_arch/app/util/network_helper.dart';
 import 'package:getx_clean_arch/app/util/operationReply.dart';
 import 'package:getx_clean_arch/data/models/user_response.dart';
-import 'package:getx_clean_arch/data/providers/network/api_provider.dart';
 import 'package:getx_clean_arch/data/providers/network/exception.dart';
 import 'package:getx_clean_arch/domain/entities/requests/change_password_request.dart';
 import 'package:getx_clean_arch/domain/entities/requests/change_phone_request.dart';

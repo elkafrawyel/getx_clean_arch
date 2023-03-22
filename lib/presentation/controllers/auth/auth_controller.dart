@@ -35,7 +35,7 @@ class AuthController extends GetxController {
       (data) async {
         futureState.complete();
         await LocalProvider.saveUser(data);
-        Get.to(() => HomePage(), binding: HomeBinding());
+        Get.off(() => HomePage(), binding: HomeBinding());
       },
     );
     update();

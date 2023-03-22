@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:getx_clean_arch/app/util/environment.dart';
 import 'package:getx_clean_arch/app/util/language/translation.dart';
 import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
+import 'package:getx_clean_arch/presentation/controllers/auth/auth_binding.dart';
 import 'package:getx_clean_arch/presentation/pages/splash.dart';
 import 'package:oktoast/oktoast.dart';
 
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+        initialBinding: AuthBinding(),
         builder: (context, navigatorWidget) {
           try {
             /// very important to handle text size difference on mobile screens

@@ -1,14 +1,19 @@
+import 'package:getx_clean_arch/data/providers/network/api_response.dart';
 import 'package:getx_clean_arch/domain/entities/models/compound_model.dart';
 
 
-class CompoundsResponse {
+class CompoundsResponse extends ApiResponse{
   CompoundsResponse({
     this.data,
     this.links,
     this.meta,
   });
 
-
+  @override
+  CompoundsResponse fromJson() {
+    // TODO: implement fromJson
+    throw UnimplementedError();
+  }
 
   CompoundsResponse.fromJson(Map<String,dynamic> json){
     if (json['data'] != null) {
@@ -24,6 +29,8 @@ class CompoundsResponse {
   List<CompoundModel>? data;
   Links? links;
   Meta? meta;
+
+
 }
 
 class Meta {

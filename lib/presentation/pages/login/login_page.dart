@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_clean_arch/data/providers/storage/local_provider.dart';
 import 'package:getx_clean_arch/presentation/controllers/auth/auth_controller.dart';
+import 'package:getx_clean_arch/presentation/pages/animated_listview.dart';
 import 'package:getx_clean_arch/presentation/widgets/app_dialog.dart';
 import 'package:getx_clean_arch/presentation/widgets/app_text_field.dart';
 import 'package:getx_clean_arch/presentation/widgets/custom_shake_widget.dart';
@@ -177,11 +178,16 @@ class _LoginPageState extends State<LoginPage> {
                 );
               },
             ),
-
           ],
         ),
       ),
       persistentFooterButtons: [
+        PlatformButton().build(
+          child: const Text('Animated ListView'),
+          onPressed: () {
+            Get.to(() => const AnimatedListViewScreen());
+          },
+        ),
         PlatformButton().build(
           child: const Text('Show Notification'),
           onPressed: () {
